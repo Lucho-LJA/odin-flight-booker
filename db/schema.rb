@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_17_184054) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_17_231706) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -22,12 +22,21 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_17_184054) do
     t.index ["code"], name: "index_airports_on_code", unique: true
   end
 
+  create_table "booking_passengers", force: :cascade do |t|
+    t.bigint "booking_id", null: false
+    t.bigint "passenger_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["booking_id"], name: "index_booking_passengers_on_booking_id"
+    t.index ["passenger_id"], name: "index_booking_passengers_on_passenger_id"
+  end
+
   create_table "bookings", force: :cascade do |t|
-    t.bigint "flight_id", null: false
     t.integer "tickets"
     t.string "confirmation_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "flight_id"
     t.index ["confirmation_number"], name: "index_bookings_on_confirmation_number", unique: true
     t.index ["flight_id"], name: "index_bookings_on_flight_id"
   end
@@ -43,6 +52,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_17_184054) do
     t.index ["departure_airport_id"], name: "index_flights_on_departure_airport_id"
   end
 
+  create_table "passenger_bookings", force: :cascade do |t|
+    t.integer "passenger_id"
+    t.integer "booking_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "passengers", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -51,5 +67,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_17_184054) do
     t.index ["email"], name: "index_passengers_on_email", unique: true
   end
 
+  add_foreign_key "booking_passengers", "bookings"
+  add_foreign_key "booking_passengers", "passengers"
   add_foreign_key "bookings", "flights"
 end
