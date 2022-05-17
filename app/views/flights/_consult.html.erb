@@ -1,19 +1,42 @@
-<div class="title is-1">Available Flight</div>
-<div class="title is-3">
-    <% if form_consults.any? %>
-        <% form_consults.each do |consult|%>
-            <div class="box">
-            <%= form_with url: new_flight_path, method: :get do |f| %>
-                        <div class="media-content">
-                            <div class="field">
-                                <div class="control">
-                                    <%= f.label :departure_airport_id, "Departure:" %>
-                                    <%= f.select(:departure_airport_id, form_objects) %>
-                                </div>
-                            </div>
-                        </div>  
-            <% end %>
+<% if form_consults.any? %>
+    <div class="title is-1">Available Flight</div>
+    <% form_consults.each do |consult|%>
+        <div class="box">
+            <div class="field">
+                <div class="control">
+                    <strong> Departure Airport: </strong>
+                    <p><%= Airport.find(consult.departure_airport_id).city %></p>
+                </div>
             </div>
-        <% end %>
+            <div class="field">
+                <div class="control">
+                    <strong> Arrival Airport: </strong>
+                    <p><%= Airport.find(consult.arrival_airport_id).city %></p>
+                </div>
+            </div>
+            <div class="field">
+                <div class="control">
+                    <strong> Flight Date: </strong>
+                    <p><%= DateTime.parse(consult.start_datetime.to_s).strftime("%F %H:%M") %></p>
+                </div>
+            </div>
+            <div class="field">
+                <div class="control">
+                    <strong> Duration: </strong>
+                    <p><%= consult.flight_duration/60 %>h:<%= consult.flight_duration%60 %>min</p>
+                </div>
+            </div>
+            <div class="field">
+                <div class="control">
+                    <%= form_with url: flights_new_path, method: :get do |f| %>
+                        <%= f.hidden_field :flight_id, value: consult.id %>
+                        <%= f.hidden_field :passengers, value: count_person %>
+                        <%= f.submit "Reserve", class: "button is-info" %>
+                    <% end %>
+                </div>
+            </div>
+        </div>
     <% end %>
-</div>
+<% else %>
+    <div class="title is-3">Sorry, there aren't available flights</div>
+<% end %>

@@ -3,4 +3,9 @@
         <%= render 'feed', form_objects: @airports %>
     </div>
     
+    <% unless @flights==nil%>
+        <div class="container">
+            <%= render 'consult', form_consults:@flights, count_person:@passenger_count %>
+        </div>
+    <% end %>
 </section>

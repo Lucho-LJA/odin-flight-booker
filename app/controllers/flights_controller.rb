@@ -6,11 +6,12 @@ class FlightsController < ApplicationController
     @passenger_count = params[:passenger_count]
     unless @departure_airport.blank? and @arrival_airport.blank?
       @start_datetime = Date.parse(params[:start_datetime])
-      @flights = Flight.where(
+      @flights = Flight.all.where(
         departure_airport_id: @departure_airport,
         arrival_airport_id: @arrival_airport,
         start_datetime: (@start_datetime..@start_datetime+1.day)
       ).order(:start_datetime)
+      p @flights
     else
       @flights = nil
     end
