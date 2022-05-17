@@ -1,0 +1,58 @@
+<div class="title is-1">Search Flight</div>
+<div class="title is-2">
+<div class="box">
+<%= form_with url: root_path, method: :get do |f| %>
+    <div class="columns">
+        <div class="column ">
+            <div class="media-content">
+                <div class="field">
+                    <div class="control">
+                        <%= f.label :departure_airport_id, "Departure:" %>
+                        <%= f.select(:departure_airport_id, form_objects) %>
+                    </div>
+                </div>
+            </div>  
+        </div>
+        <div class="column">
+            <div class="media-content">
+                <div class="field">
+                    <div class="control">
+                        <%= f.label :arrival_airport_id, "Arrival:" %>
+                        <%= f.select(:arrival_airport_id, form_objects) %>
+                    </div>
+                </div>
+            </div> 
+        </div>
+        <div class="column">
+            <div class="media-content">
+                <div class="field">
+                    <div class="control">
+                        <%= f.label :start_datetime, "Date:" %>
+                        <%= f.date_field :start_datetime, requride: true, value:Date.today %>
+                    </div>
+                </div>
+            </div> 
+        </div>
+        <div class="column">
+            <div class="media-content">
+                <div class="field">
+                    <div class="control">
+                        <%= f.label :passenger_count, "Passengers:" %><br />
+                        <%= f.select :passenger_count, [1,2,3,4,5],requride: true, value:1 %>
+                    </div>
+                </div>
+            </div> 
+        </div>
+        <div class="column">
+            <div class="media-content">
+                <div class="field">
+                    <div class="control">
+                        <%= f.submit "Search", class: "button is-info" %>
+                    </div>
+                </div>
+            </div> 
+        </div>
+    </div>
+<% end %>
+</div>
+</div>

@@ -1,0 +1,19 @@
+<div class="title is-1">Available Flight</div>
+<div class="title is-3">
+    <% if form_consults.any? %>
+        <% form_consults.each do |consult|%>
+            <div class="box">
+            <%= form_with url: new_flight_path, method: :get do |f| %>
+                        <div class="media-content">
+                            <div class="field">
+                                <div class="control">
+                                    <%= f.label :departure_airport_id, "Departure:" %>
+                                    <%= f.select(:departure_airport_id, form_objects) %>
+                                </div>
+                            </div>
+                        </div>  
+            <% end %>
+            </div>
+        <% end %>
+    <% end %>
+</div>
