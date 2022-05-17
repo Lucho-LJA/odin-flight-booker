@@ -22,6 +22,12 @@
             </div>
             <div class="field">
                 <div class="control">
+                    <strong> Passengers: </strong>
+                    <p><%= count_person %></p>
+                </div>
+            </div>
+            <div class="field">
+                <div class="control">
                     <strong> Duration: </strong>
                     <p><%= consult.flight_duration/60 %>h:<%= consult.flight_duration%60 %>min</p>
                 </div>
@@ -30,7 +36,7 @@
                 <div class="control">
                     <%= form_with url: flights_new_path, method: :get do |f| %>
                         <%= f.hidden_field :flight_id, value: consult.id %>
-                        <%= f.hidden_field :passengers, value: count_person %>
+                        <%= f.hidden_field :ticket, value: count_person %>
                         <%= f.submit "Reserve", class: "button is-info" %>
                     <% end %>
                 </div>
