@@ -2,4 +2,9 @@
     <div class="container">
         <%= render 'feed1', form_objects: @airports %>
     </div>
+    <% unless @tickets==nil%>
+        <div class="container">
+            <%= render 'consult1', form_consults:@tickets %>
+        </div>
+    <% end %>
 </section>

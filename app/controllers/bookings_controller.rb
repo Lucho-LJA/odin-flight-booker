@@ -1,4 +1,27 @@
 class BookingsController < ApplicationController
+    def index
+        @opc = params[:option]
+        @opc_find= params[:opc_find]
+    
+        unless @opc.blank? and @opc_find.blank?
+            if @opc == "Ticket"
+                @tickets = Booking.all.where(confirmation_number:@opc_find)
+            else
+                pass_aux = Passenger.where(email: @opc_find)[0]
+                book_aux = PassengerBooking.all.where(passenger_id: pass_aux.id)
+                @tickets = []
+                book_aux.each do |book|
+                    @tickets.append(Booking.find(book.booking_id))
+                end
+            end
+            @booking=Booking.new
+        else
+                @tickets = nil
+                @booking = nil
+        end
+
+    end
+
     def new
         @booking1=Booking.new(permit_params1)
         @booking = Booking.new
@@ -6,6 +29,7 @@ class BookingsController < ApplicationController
         times_pb.times { @booking.passengers.build }
     end
     def show
+        p "oonpnobonon"
         @booking = Booking.find(params[:id])
         @passenger = []
         @pb = PassengerBooking.all.where(booking_id:@booking.id)
@@ -17,7 +41,6 @@ class BookingsController < ApplicationController
     
     def create
         @booking = Booking.new(permit_params2)
-        p "okoo"
         permit_params3[:passengers_attributes].each do |pas|
             pass_aux = Passenger.all.where(email:pas[1][:email])
             if pass_aux.any?
@@ -45,7 +68,10 @@ class BookingsController < ApplicationController
         redirect_to @booking
     end
 
-        
+    def edit
+        @booking = Booking.find(params[:id])
+        redirect_to @booking
+    end
 
         
     def permit_params1
