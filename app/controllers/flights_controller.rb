@@ -11,9 +11,10 @@ class FlightsController < ApplicationController
         arrival_airport_id: @arrival_airport,
         start_datetime: (@start_datetime..@start_datetime+1.day)
       ).order(:start_datetime)
-      p @flights
+      @booking = Booking.new
     else
       @flights = nil
+      @booking = nil
     end
     @airports = Airport.all.order("city").map{ |a| [ a.city, a.id ] }
   end

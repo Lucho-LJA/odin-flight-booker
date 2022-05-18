@@ -42,3 +42,27 @@
     align-items: center;
     justify-content: space-between;
 }
+.container1{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.box-top{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-style: solid;
+    border-color: black;
+}
+.head1{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.body-ticket{
+    display: flex;
+    flex-direction: column;
+    margin-top: 2rem;
+}

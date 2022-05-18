@@ -5,7 +5,8 @@
     
     <% unless @flights==nil%>
         <div class="container">
-            <%= render 'consult', form_consults:@flights, count_person:@passenger_count %>
+            <%= render 'consult', form_consults:@flights, count_person:@passenger_count,
+            form_model:@booking %>
         </div>
     <% end %>
 </section>
