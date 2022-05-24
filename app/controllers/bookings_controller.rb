@@ -49,9 +49,14 @@ class BookingsController < ApplicationController
                     if @booking.save
                        @pb = @booking.passenger_bookings.build(passenger_id:p_id)
                        @pb.save
+                       @correct = true
                     end
+                    
                 else
+                    flash[:alert] = "One o more names already have a email assigned"
                     p "Error of name"
+                    redirect_to new_booking_path({booking:{flight_id:params[:booking][:flight_id], 
+                        tickets:params[:booking][:tickets]}})
                     break
                 end
             else
@@ -61,14 +66,18 @@ class BookingsController < ApplicationController
                         @pb = @booking.passenger_bookings.build(passenger_id:@pass.id)
                         @pb.save
                      end
+                     @correct = true
                 end
             end
-            @params_email = {name:pas[1][:name], email:pas[1][:email],
-            ticket: params[:booking][:confirmation_number]}
-            PassengerMailer.with(user: @params_email).confirmation_email.deliver_later
-
+            unless @correct.blank?
+                @params_email = {name:pas[1][:name], email:pas[1][:email],
+                ticket: params[:booking][:confirmation_number]}
+                PassengerMailer.with(user: @params_email).confirmation_email.deliver_later
+            end       
         end
-        redirect_to @booking
+        redirect_to @booking unless @correct.blank?
+        p "blblbksbisvudvy"
+        p @correct
     end
 
     def edit
