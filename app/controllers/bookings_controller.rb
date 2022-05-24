@@ -63,6 +63,9 @@ class BookingsController < ApplicationController
                      end
                 end
             end
+            @params_email = {name:pas[1][:name], email:pas[1][:email],
+            ticket: params[:booking][:confirmation_number]}
+            PassengerMailer.with(user: @params_email).confirmation_email.deliver_later
 
         end
         redirect_to @booking
